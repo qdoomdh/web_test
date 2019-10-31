@@ -9,14 +9,14 @@ class Book(models.Model): #now we need the quality that books might have
 	is_favourite = models.BooleanField(default=False,verbose_name="Favourite?")
 
 	def __str__(self):
-		return "{} by {}".format(self.title,self.list_authors())
+		return "{} by {}".format(self.title, self.list_authors())
 
 	def list_authors(self):
-		return ".".join([author.name for author in self.authors.all()])
+		return "-".join([author.name for author in self.authors.all()])
 
 	def save(self, *argv, **kwargv):
-		if review and date_reviewd is None:
-			date_reviewd=now()
+		if (self.review and self.date_reviewd is None):
+			self.date_reviewd=now()
 		super(Book,self).save(*argv, **kwargv)
 
 class Author(models.Model):
