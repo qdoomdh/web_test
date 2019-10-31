@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 # Create your models here.
 class Book(models.Model): #now we need the quality that books might have
 	title = models.CharField(max_length=150) #this going to be stored as a string we must set maximum lenght to store
@@ -8,7 +9,15 @@ class Book(models.Model): #now we need the quality that books might have
 	is_favourite = models.BooleanField(default=False,verbose_name="Favourite?")
 
 	def __str__(self):
-		return self.title
+		return "{} by {}".format(self.title,self.list_authors())
+
+	def list_authors(self):
+		return ".".join([author.name for author in self.author.all()])
+
+	def save(self, *argv, **kwargv):
+		if review and date_reviewd is None:
+			date_reviewd=now()
+		super(Book,self).save(*argv, **kwargv)
 
 class Author(models.Model):
 	name = models.CharField(max_length=70,help_text=' Use pen name,not Real name',
