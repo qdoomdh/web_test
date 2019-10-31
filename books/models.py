@@ -12,7 +12,7 @@ class Book(models.Model): #now we need the quality that books might have
 		return "{} by {}".format(self.title,self.list_authors())
 
 	def list_authors(self):
-		return ".".join([author.name for author in self.author.all()])
+		return ".".join([author.name for author in self.authors.all()])
 
 	def save(self, *argv, **kwargv):
 		if review and date_reviewd is None:
