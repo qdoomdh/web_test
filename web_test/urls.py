@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include, re_path
 import debug_toolbar
-
+from books.views import books_list #importing book list from views.py
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__', include(debug_toolbar.urls)),
+    path('', books_list, name="books"),
 ]
 
