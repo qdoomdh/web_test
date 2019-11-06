@@ -1,0 +1,25 @@
+{%load humanize%}   <!-- this for loading humanize settings-->>
+<html>
+    <head>
+        <title>
+            Django First Template.
+        </title>
+    </head>
+    <body>
+        {% if request.user.is_authenticated %}
+            <p>hello <b>{{ request.user.username|title }} </b> , You last logged in {{ request.user.last_login|date:"D d M Y" }}</p>
+        {% else %}
+            <p>Hello gust.</p>
+        {% endif %}
+        <main>
+            <h1>{{books.count|apnumber|title}} book{{books.count|pluralize}}</h1><!.. #second code only pluralize the book,title for capitalize ..>
+            {%for book in books%}
+                <h2>{{book.title}} by {{ book.list_authors }}</h2>
+                {%if book.is_favourite %} <!.. #only show the lable if that books is indeed a favourite ..>
+                    <span class="highlights">favourite</span>
+                {%endif %}
+                {{book.review }}
+            {%endfor %}
+        </main>
+    </body>
+</html>
