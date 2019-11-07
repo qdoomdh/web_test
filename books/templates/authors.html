@@ -1,0 +1,10 @@
+<html>
+    <head>
+        <title>Author page</title>
+    </head>
+    <body>
+        {%for author in authors %}  <! -- authors in this loop related to the contex (dictionary var) in views.py file-->
+            <h2>{{author.name}}</h2>
+        {%endfor%}
+    </body>
+</html> 
