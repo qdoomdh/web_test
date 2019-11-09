@@ -1,0 +1,38 @@
+{% load static %}
+<!doctype html>	<!--doctype for html5-->
+<html>
+	<head>
+		<title>Web_test</title>
+		<meta charset=utf-8"
+		<meta name="description" content="My best book review site">
+		<meta name="Viewport" content= width=device.width, initial-scale=1>
+		<link rel="stylesheet" href="{% static 'css/normalize.css'%}">
+		<link rel="stylesheet" href="{% static 'css/style.css'%}"> 
+		<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:700|Merriweather:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+	</head>
+	
+	<body>
+		<div class="container">
+			<header>
+				<img src="{% static 'img/logo.png'%}" alt="Web_test!" class="logo"/>
+				<div class="welcome"> 
+					{% if request.user.is_authenticated %}
+						<p>hello <b>{{ request.user.username|title }} </b> , You last logged in {{ request.user.last_login|date:"D d M Y" }}</p>
+					{% else %}
+						<p>Hello gust.</p>
+					{% endif %}
+				</div>
+			</header>
+			 <nav>
+				<a href="{% url 'books'  %}"> books </a>
+				<a href="{% url 'authors'  %}"> authors </a>
+			</nva>
+			<main>
+                {% block content %}{% endblock %} <!-- content is the chosen name -->
+			</main>
+			<footer>
+				<p>My awesome book review website! </p>
+			</footer>
+		</div>
+	</body>
+</html>
