@@ -18,7 +18,7 @@ class BookAdmin(admin.ModelAdmin):
     list_editable="is_favourite", #in the future add book_author and make it ok
     list_display_links = ("title","date_reviewd",)
     #only one command should work here
-    list_filter="is_favourite","title",#we can add another filter like->"date_reviewd",
+    list_filter="is_favourite","title",#we can add another filter like->"date_reviewed",
     search_fields= ("title", "authors__name",)
 #until here only set interface changes
 admin.site.register(Author)
