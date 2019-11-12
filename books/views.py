@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404,render,redirect #for 404 error in review_book/s
 from django.db.models import Count
-from .forms import ReviewForm #this use for review form in review-book function
+from .forms import BookForm,ReviewForm #this use for review form in review-book function
 from .models import Book,Author #book is an object
 from django.views.generic import DetailView,View #use for subclassess
 #from django.http import HttpResponse # importing resond we no use it we can ermove it
@@ -34,17 +34,33 @@ class AuthorDetail(DetailView):
     model=Author
     template_name="author.html"
 
-def review_books(request):
-	"""
-	List all of the books that we want to review.
-	"""
-	books = Book.objects.filter(date_reviewd__isnull=True).prefetch_related('authors')
-	
-	context = {
-		'books': books,
-	}
-	
-	return render(request, "list-to-review.html", context)
+#def review_books(request):#
+class ReviewList(View):
+    def get(self, request):
+            
+        """
+        List all of the books that we want to review.
+        """
+        books = Book.objects.filter(date_reviewd__isnull=True).prefetch_related('authors')
+        
+        context = {
+            'books': books,
+            'form':BookForm,
+        }
+        
+        return render(request, "list-to-review.html", context)
+    def post(self, request):    #define post method as same as if statement in functional view
+        form=BookForm(request.POST)
+        books = Book.objects.filter(date_reviewd__isnull=True).prefetch_related('authors') #he list of books render in the post request.
+
+        if form.is_valid():
+            form.save() #This will automatically map all of the fields to a model and save them in our database
+            return redirect('review-books')
+        context={
+            'book':books,
+            'form':form
+        }
+        return render(request, "list-to-review.html", context)	#render our shortcut
 
 def review_book(request, pk):
     '''
