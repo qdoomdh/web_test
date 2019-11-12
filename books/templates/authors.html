@@ -5,9 +5,9 @@
     <body>-->
 {% extends "base.html" %}
 {% block content %}
-        {%for author in authors %}  <! -- authors in this loop related to the contex (dictionary var) in views.py file-->
+        {% for author in authors %}  <! -- authors in this loop related to the contex (dictionary var) in views.py file-->
             <h2><a href="{% url 'author-detail' author.pk%}"> {{author.name}} </a></h2>
-        {%endfor%}
+        {% endfor %}
 {% endblock %}      
 <!--   </body>
 </html> --> 

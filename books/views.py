@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404,render #for 404 error in review_book/s
+from django.shortcuts import get_object_or_404,render,redirect #for 404 error in review_book/s
 from django.db.models import Count
 from .forms import ReviewForm #this use for review form in review-book function
 from .models import Book,Author #book is an object
@@ -45,17 +45,27 @@ def review_books(request):
 	}
 	
 	return render(request, "list-to-review.html", context)
-	
-	
+
 def review_book(request, pk):
-	"""
+    '''
 	Review an individual book
-	"""
-	book = get_object_or_404(Book, pk=pk)
-	form=ReviewForm
-	context = {
-		'book': book,
-        'form':form
-	}
-	
-	return render(request, "review-book.html", context)
+    '''
+
+    book = get_object_or_404(Book, pk=pk)
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST) #bind the recquest to the form
+        if form.is_valid(): 
+            book.is_favourite= form.cleaned_data['is_favourite']    #clean the book information and replace it, provided by from 
+            book.review=form.cleaned_data['review']
+            book.save() #save the book
+
+            return redirect("review-books")     #return to the review-books(attention to the urls.py in that part we define review_books name as review-books)
+    else:
+        form=ReviewForm
+
+    contex={
+        'book':book,
+        'form':form,
+    }
+    return render(request, 'review-book.html', contex)
