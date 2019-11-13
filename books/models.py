@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.db import models
 from django.utils.timezone import now
 # Create your models here.
@@ -24,4 +25,7 @@ class Author(models.Model):
 							 unique=True)
 	def __str__(self):
 		return self.name
+	
+	def get_absolute_url(self):		#for returning author detail url
+		return reverse('author-detail', kwargv={'pk', self.pk}) #takes url name and return url,and primary key of author
 

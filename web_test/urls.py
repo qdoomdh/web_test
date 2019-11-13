@@ -18,13 +18,15 @@ from django.conf import settings
 from django.urls import path, include, re_path
 import debug_toolbar
 from books.views import (AuthorList, AuthorDetail, BookDetail, books_list #importing book list from views.py
-                         ,ReviewList,review_book) #review_books) delete the reveiw_books
+                         ,CreateAuthor,ReviewList,review_book) #review_books) delete the reveiw_books
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__', include(debug_toolbar.urls)),
     path('', books_list, name="books"),
     path('authors/',AuthorList.as_view(),name="authors"),
     path('books/<int:pk>',BookDetail.as_view(),name="book-detail"), #(?P<pk>[-\w]+/)
+    path('authors/add',CreateAuthor.as_view(),name="add-author"), #it must be above of the author-detail
+    #because we want to url to first match author-add befor hits the regular expression underneath
     path('authors/<int:pk>',AuthorDetail.as_view(),name="author-detail"), #(?P<pk>[-\w]+/)
     #path('review/', review_books, name='review-books'), delete this
     path('review/', ReviewList.as_view(), name='review-books'),

@@ -1,8 +1,10 @@
+from django.urls import reverse
 from django.shortcuts import get_object_or_404,render,redirect #for 404 error in review_book/s
 from django.db.models import Count
 from .forms import BookForm,ReviewForm #this use for review form in review-book function
 from .models import Book,Author #book is an object
 from django.views.generic import DetailView,View #use for subclassess
+from django.views.generic.edit import CreateView
 #from django.http import HttpResponse # importing resond we no use it we can ermove it
 
 def books_list(request):
@@ -18,7 +20,7 @@ def books_list(request):
 
 class AuthorList(View):
     def get(self, request):
-        authors=Author.objects.all() #to find out all authors and return to our response
+       # authors=Author.objects.all() #to find out all authors and return to our response
         authors=Author.objects.annotate( #count wich authors how many books have.
             published_books=Count("books")  
         ).filter(published_books__gt=0) #filter only authors that have at least 1 publish books 
@@ -85,3 +87,11 @@ def review_book(request, pk):
         'form':form,
     }
     return render(request, 'review-book.html', contex)
+
+class CreateAuthor(CreateView):     #CREATE AN AUTHOR PAGE
+    model = Author          #we model the author
+    fields = ['name',]  #the fields that shown in create author page
+    template_name="create-author.html"     #the template name for that page
+
+    def get_success_url(self):  #if the form submit is sucessfull:
+        return reverse('review-books')      #redirect to url,use reverse shortcut again
