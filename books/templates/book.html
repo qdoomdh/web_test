@@ -5,12 +5,7 @@
     <body>-->
 {% extends "base.html" %}
 {% block content %}
-    {% if book.review %}
-     <!--  <div class="book"><h3>{{book.title }} </h3>
-        <p>By {% for author in book.authors.all %} {{author.name}}</p> {% endfor %}
-        {% if book.is_favourite %} <p class="hilight">favourite</p>{% endif %}
-        <p>{{book.review|linebreaks}}</p>
-        </div>--> 
+    {% if book.review %} 
         {% include "book-detail.html" %}
     {% endif %}
 {% endblock content %}

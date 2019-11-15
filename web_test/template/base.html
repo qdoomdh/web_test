@@ -22,10 +22,11 @@
 						<p>Hello gust.</p>
 					{% endif %}
 				</div>
-			</header>
+			</header> 
 			 <nav>
 				<a href="{% url 'books'  %}"> books </a>
 				<a href="{% url 'authors'  %}"> authors </a>
+				<a href="{% url 'review-books'  %}"> review </a>
 			</nav>
 			<main>
                 {% block content %}{% endblock %} <!-- content is the chosen name -->
