@@ -12,6 +12,14 @@
                 <h3><a href="{% url 'book-detail' book.pk %}">{{book.title }} </a></h3>
                 {% if book.is_favourite %} <p class="highlight">favourite</p>{% endif %}
                 <p>{{book.review|linebreaks}}</p>
+                
+                <p class="meta">    <!-- display information about when the review is written -->
+                    Reviewed on <strong> {{book.date_reviewd|date:"D d M Y" }} </strong> <!-- use date_reviewed for when the review is written and a date filter for shoing correct date format -->
+                    {% if book.reviewed_by %}   <!-- wrap our reviewed_by in if statement,because we don't allways have user assosiate with each of our review -->
+                        by <strong> {{ book.reviewed_by.get_full_name|default:book.reviewed_by.username }} </strong> <!-- get_full_name(builtin method on User model) this displays the first names and the last name with spacing between -->
+                        <!-- use the default filter to specify what should show.if a form name is available then display username -->
+                    {% endif %}
+                </p>
             </div>
         {% endif %}
     {% endfor %}

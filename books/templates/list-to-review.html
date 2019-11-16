@@ -7,6 +7,7 @@
 		<table>
 			<thead>
 				<th>Title &amp; Author</th>
+				<th> Assigned To </th>
 				<th class="align-right">Action</th>
 			</thead>
 			<tbody>
@@ -14,6 +15,15 @@
 					<tr>
 						<td class="title">
 							{{ book.title }} by {{ book.list_authors }}
+						</td>
+						<td >
+						{% if book.reviewed_by == request.user  %} <!-- if the book assign to the logged in user out put me -->
+							<span class="highlight">Me</span> <!-- output this is me when the assigned user is the loggeding user -->
+						{% elif book.reviewed_by %} <!-- output the name or username -->
+							{{book.reviewed_by.get_full_name|default:book.reviewed_by.username}} <!-- output the full name or username of the user that we've assign this book to -->
+						{% else %} <!-- if it's not associate to anyone ,render a dahs(-)  -->
+							-
+						{% endif %}
 						</td>
 						<td class="align-right">
 							<a href="{% url 'review-book' book.pk %}">Review</a>
@@ -63,6 +73,15 @@
 
 		<p>Can't find the author you're looking for? <a href="{% url 'add-author' %}">Create a New Author</a></p>
 
+		<label>Assigned To </label> <!--{{ form.reviewed_by.label }} changes -->
+		{{ form.reviewed_by }}
+		{% if form.reviewed_by.errors %}
+			<div class="form-error">
+				{% for error in form.reviewed_by.errors %}
+					<span>{{ error }}</span>
+				{% endfor %}
+			</div>
+		{% endif %}
 		<input type="submit" value="Add Book">
 	</form>
 	

@@ -5,7 +5,7 @@ from .models import Book,Author  #we can write from books.models import Book,Aut
 class BookAdmin(admin.ModelAdmin):
     fieldsets=[
         ("Book Details", {"fields": ["title", "authors"]}),
-        ("Review", {"fields": ["is_favourite", "review", "date_reviewd"]} ),
+        ("Review", {"fields": ["is_favourite", "review","reviewed_by", "date_reviewd"]} ),
      ]
 
     def book_authors (self, obj):

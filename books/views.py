@@ -80,7 +80,7 @@ class ReviewList(View):
         return render(request, "list-to-review.html", context)	#render our shortcut
 
 
-def review_book(request, pk):
+def review_book(request, pk):   #This is a views
     """
 	Review an individual book
     """
@@ -94,6 +94,7 @@ def review_book(request, pk):
         if form.is_valid(): 
             book.is_favourite = form.cleaned_data['is_favourite']    #clean the book information and replace it, provided by from 
             book.review = form.cleaned_data['review']
+            book.reviewed_by=request.user
             book.save() #save the book
 
             return redirect('review-books')     #return to the review-books(attention to the urls.py in that part we define review_books name as review-books)
