@@ -17,16 +17,18 @@
 				<img src="{% static 'img/logo.png'%}" alt="Web_test!" class="logo"/>
 				<div class="welcome"> 
 					{% if request.user.is_authenticated %}
-						<p>hello <b>{{ request.user.username|title }} </b> , You last logged in {{ request.user.last_login|date:"D d M Y" }}</p>
+						<p>hello <b>{{ request.user.username|title }} </b> , You last logged in {{ request.user.last_login|date:"D d M Y" }} <a href="{% url 'logout' %}">Logout </a></p>
 					{% else %}
-						<p>Hello gust.</p>
+						<p>Hello gust. <a href="{% url 'login' %}">Login </a></p>
 					{% endif %}
 				</div>
 			</header> 
 			 <nav>
 				<a href="{% url 'books'  %}"> books </a>
 				<a href="{% url 'authors'  %}"> authors </a>
-				<a href="{% url 'review-books'  %}"> review </a>
+				{% if request.user.is_authenticated %} <!--a django builtin method,this will check wheter or not the user whose using the page is infact loged in to django. -->
+					<a href="{% url 'review-books'  %}"> Reviews </a>
+				{% endif %}
 			</nav>
 			<main>
                 {% block content %}{% endblock %} <!-- content is the chosen name -->

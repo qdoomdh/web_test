@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.db.models import Count
 from django.shortcuts import get_object_or_404,render,redirect #for 404 error in review_book/s
@@ -79,7 +80,7 @@ class ReviewList(View):
 
         return render(request, "list-to-review.html", context)	#render our shortcut
 
-
+@login_required  #this only used for function base views
 def review_book(request, pk):   #This is a views
     """
 	Review an individual book
