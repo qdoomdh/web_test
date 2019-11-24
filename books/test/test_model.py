@@ -31,3 +31,4 @@ class BookTest(TestCase):   #rename Demo test to BookTest  #for creating author 
         self.book.review = "My review" #create a review
         self.book.save()    	#call our/a custom save method
         self.assertIsNotNone(self.book.date_reviewd) #check that because of our save method has been called,that the date_reviewed field has been filled
+        
