@@ -128,3 +128,5 @@ STATICFILES_DIRS=[
     os.path.join(BASE_DIR, "web_test", "static"),
 ]
 SILKY_META = True
+#Auth
+LOGIN_URL = '/login/'
