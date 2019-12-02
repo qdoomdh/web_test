@@ -14,20 +14,22 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+DJANGO_MODE= os.getenv('DJANGO_MODE', "Production").lower()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kz&558-654v+sdcycnft5knxkqz++r5m^=92@4qcb^=4+96te-'
-
+#SECRET_KEY = 'kz&558-654v+sdcycnft5knxkqz++r5m^=92@4qcb^=4+96te-' me make command
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if DJANGO_MODE == 'local':
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = []
-
-
+#ALLOWED_HOSTS = [] #myself make this command
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,9 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.humanize', #this work for humanize: shows number under 10 as word and over as number
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
+    #'debug_toolbar',# move to the if statement
     'books',
 ]
+if DJANGO_MODE == 'local':
+    INSTALLED_APPS +=(
+        'debug_toolbar',
+    )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,14 +82,24 @@ WSGI_APPLICATION = 'web_test.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DJANGO_MODE == 'local':  #for use sqllight only on local mode
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
-
+elif DJANGO_MODE == 'staging':  #for use for postgresql  on staging mode
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # for using posgresql
+            'NAME': os.getenv('DB_NAME'),
+			'USER': os.getenv('DB_USER'),
+			'PASSWORD': os.getenv('DB_PASSWORD'),
+			'HOST': os.getenv('DB_HOST','127.0.0.1'),
+			'PORT': os.getenv('DB_NAME','5432'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
