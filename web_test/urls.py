@@ -19,12 +19,12 @@ from django.contrib.auth import views as auth_views #for logout
 from django.conf import settings
 from web_test.settings import DJANGO_MODE
 from django.urls import path, include, re_path
-if DJANGO_MODE == 'local':
+if DJANGO_MODE == 'local':  #for staging prblem
     import debug_toolbar
 from books.views import (AuthorList, AuthorDetail, BookDetail, books_list #importing book list from views.py
                          ,CreateAuthor,ReviewList,review_book) #review_books) delete the reveiw_books
 
-if DJANGO_MODE == 'local':
+if DJANGO_MODE == 'local':      #for staging problem, this is a temp sloution
     urlpatterns = [
         #Auth
         path('logout', auth_views.logout,{'next_page': 'books'}, name='logout'), #for logout
