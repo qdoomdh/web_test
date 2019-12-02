@@ -97,7 +97,7 @@ elif DJANGO_MODE == 'staging':  #for use for postgresql  on staging mode
 			'USER': os.getenv('DB_USER'),
 			'PASSWORD': os.getenv('DB_PASSWORD'),
 			'HOST': os.getenv('DB_HOST','127.0.0.1'),
-			'PORT': os.getenv('DB_NAME','5432'),
+			'PORT': os.getenv('DB_PORT','5432'),
         }
     }
 
