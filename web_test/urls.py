@@ -43,7 +43,7 @@ if DJANGO_MODE == 'local':      #for staging problem, this is a temp sloution
         path('review/', login_required(ReviewList.as_view()), name='review-books'), #for classed base view we msut do this
         path('review/<int:pk>', review_book, name='review-book'), 
     ]
-else:      
+elif DJANGO_MODE == 'staging':      
     urlpatterns = [
         #Auth
         path('logout', auth_views.logout,{'next_page': 'books'}, name='logout'), #for logout
