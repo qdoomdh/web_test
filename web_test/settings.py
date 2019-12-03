@@ -100,7 +100,10 @@ elif DJANGO_MODE == 'staging':  #for use for postgresql  on staging mode
 			'PORT': os.getenv('DB_PORT','5432'),
         }
     }
-
+elif DJANGO_MODE == 'production':  #for use for postgresql  on production mode
+    import dj_database_url  #use dj_database_url to handle enviroment for heroku
+    #Handles DATABASE_URL enviroment variable
+    DATABASES = {'default': dj_database_url.config() } #set our database default and call dj_database_url
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -138,6 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/staticfiles' # collect all static files in one place for production,in root folder
 INTERNAL_IPS = ['127.0.0.1', ]
 
 STATICFILES_DIRS=[
