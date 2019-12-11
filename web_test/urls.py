@@ -18,15 +18,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views #for logout
 from django.conf import settings
 from web_test.settings import DJANGO_MODE
+#import debug_toolbar
 from django.urls import path, include, re_path
 from django.conf.urls import url  
 from books.views import (AuthorList, AuthorDetail, BookDetail, books_list #importing book list from views.py
-                         ,CreateAuthor,ReviewList,review_book) #review_books) delete the reveiw_books
+                         ,CreateAuthor,ReviewList,review_book,Signup) #review_books) delete the reveiw_books
 
 urlpatterns = [
     #Auth
     path('logout', auth_views.logout,{'next_page': 'books'}, name='logout'), #for logout
     path('login', auth_views.login,{'template_name': 'login.html'}, name='login'),
+    path('signup', Signup, name='registration' ),
     #Admin
     path('admin/', admin.site.urls),
     #custom 

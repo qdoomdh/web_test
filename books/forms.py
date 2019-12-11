@@ -1,5 +1,7 @@
 from django import forms
 from .models import Book
+from django.contrib.auth.forms import UserCreationForm #for usercreation register
+from django.contrib.auth.models import User #for usercreation register
 
 class ReviewForm(forms.Form):
     """
@@ -40,3 +42,23 @@ class BookForm(forms.ModelForm):
         )
         except Book.DoesNotExist:
             return self.cleaned_data
+
+class RegistrationForm(UserCreationForm):   #use for registration
+    """
+    this is a registration form, for creating new users.
+    """
+    first_name = forms.CharField(min_length=3,max_length=30, required=True, help_text= "Required")
+    last_name = forms.CharField(min_length=3,max_length=30, required=False, help_text= "Optional.")
+    email = forms.EmailField(max_length=200,help_text='Required. Use a valid email address.'  )
+    
+
+    class Meta:
+        model = User
+        fields = (
+            'first_name', 'last_name','username', 'email', 'password1','password2'
+        )
+        help_texts = {
+            'password': "For strong password use at least 8 character including number,letters and sing",
+            'username': 'Do Not forget your username',
+        }
+    

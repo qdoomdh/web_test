@@ -1,28 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if request.user.is_authenticated %} <!-- This is my code-->
-        <p> You have are already login</p>
-        <a href=" {% url "books" %} " >Back To The Main Menu </a>
-
-    {% else %}
-        <form method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-
-            <label>{{ form.username.label }}</label>
-            {{ form.username }}
-
-            <label>{{ form.password.label }}</label>
-            {{ form.password }}
-
-            {% if form.errors %}
-                <div class="form-error">
-                    <span>Your username and password didn't match. Please try again.</span>
-                </div>
-            {% endif %}
-
-            <input type="hidden" name = "next" value= "{% url 'review-books' %}" />
-            <input type="submit" value="login" />
-        </form>
-    {% endif %}
+  <h2>Sign up</h2>
+  <form method="post"action="{% url 'registration' %}">
+    {% csrf_token %}
+    {% for field in form %}
+      <label>{{ field.label}}</label>
+        {{ field }}
+        <!--
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text|safe }}</small>
+        {% endif %}-->
+        {% for error in field.errors %}
+            <div class="form-error">
+                <span>{{ error }}</span>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <input type="hidden" name = "next" value= "{% url 'books' %}" />
+    <br/>
+    <input type="submit" value="SignUp" />
+  </form>
 {% endblock %}

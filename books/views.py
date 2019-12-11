@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate #for registration form and view
 from django.urls import reverse
 from django.db.models import Count
 from django.shortcuts import get_object_or_404,render,redirect #for 404 error in review_book/s
 from django.views.generic import DetailView,View #use for subclassess
 from django.views.generic.edit import CreateView
-from .forms import BookForm,ReviewForm #this use for review form in review-book function
+from .forms import BookForm,ReviewForm,RegistrationForm #this use for review form in review-book function
 from .models import Author, Book #book is an object
 #from django.http import HttpResponse # importing resond we no use it we can ermove it
 
@@ -118,3 +119,26 @@ class CreateAuthor(CreateView):     #CREATE AN AUTHOR PAGE
 
     def get_success_url(self):  #if the form submit is sucessfull:
         return reverse('review-books')      #redirect to url,use reverse shortcut again
+
+
+def Signup(request): #https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            #user = authenticate(usename=username, password=raw_password) #we've already authenticated then we don't need thsi
+            user = form.save()
+            login(request, user)
+            return redirect('review-books')
+    else:
+        form = RegistrationForm()
+    context = {
+        'form':form
+    }
+    help_text = {
+            'password1': "For strong password use at least 8 character including number,letters and sing",
+            'username': 'Required',
+        }
+    return render (request, 'registration.html', context, help_text)

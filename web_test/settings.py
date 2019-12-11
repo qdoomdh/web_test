@@ -44,9 +44,9 @@ INSTALLED_APPS = [
     'books',
 ]
 if DJANGO_MODE == 'local':
-    INSTALLED_APPS +=(
+    INSTALLED_APPS +=[
         'debug_toolbar',
-    )
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,10 +59,9 @@ MIDDLEWARE = [
     
 ]
 if DJANGO_MODE == 'local':
-
-    MIDDLEWARE +=(
+    MIDDLEWARE +=[
         'debug_toolbar.middleware.DebugToolbarMiddleware',
-    )
+    ]
     
 ROOT_URLCONF = 'web_test.urls'
 
