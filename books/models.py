@@ -7,7 +7,7 @@ class Book(models.Model): #now we need the quality that books might have
 	title = models.CharField(max_length=150) #this going to be stored as a string we must set maximum lenght to store
 	authors = models.ManyToManyField("Author",related_name="books")
 	review = models.TextField(blank = True, null=True)
-	reviewed_by = models.ForeignKey(User,blank=True, null=True,related_name='review',on_delete=models.PROTECT) 
+	reviewed_by = models.ForeignKey(User, blank=True, null=True, related_name='review', on_delete=models.PROTECT) 
 	#*about the above code:this is a many-to-one field,first argument is the model we want to map(relationship with)
 	#we must also defin a elated name:a book would have one user who its revied by but a user may have many rewveiws. then we user reviews related name
 	#**Note: in django 2 and upper you must takes an additional argument on_deleted wich have option: cascade,protect,set(),...

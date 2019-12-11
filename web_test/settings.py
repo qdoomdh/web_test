@@ -56,9 +56,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    
 ]
+if DJANGO_MODE == 'local':
 
+    MIDDLEWARE +=(
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+    
 ROOT_URLCONF = 'web_test.urls'
 
 TEMPLATES = [
@@ -141,7 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/staticfiles' # collect all static files in one place for production,in root folder
+STATIC_ROOT = 'staticfiles' # collect all static files in one place for production,in root folder
 INTERNAL_IPS = ['127.0.0.1', ]
 
 STATICFILES_DIRS=[
@@ -150,3 +155,45 @@ STATICFILES_DIRS=[
 SILKY_META = True
 #Auth
 LOGIN_URL = '/login/'
+# LOGGING
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+
+LOGGING = {
+	'version': 1,
+	'disable_existing_loggers': False,
+	'filters': {
+		'require_debug_false': {
+			'()': 'django.utils.log.RequireDebugFalse'
+		}
+	},
+	'handlers': {
+		'mail_admins': {
+			'level': 'ERROR',
+			'filters': ['require_debug_false'],
+			'class': 'django.utils.log.AdminEmailHandler'
+		}
+	},
+	'loggers': {
+		'django.request': {
+			'handlers': ['mail_admins'],
+			'level': 'ERROR',
+			'propagate': True,
+		},
+	}
+}
+#Admin
+ADMINS = [
+    ('Mr.ebi', 'softwareqdoo@yahoo.com'),
+    ('Mr. qdoo', 'qdoomd@yahoo.com')
+]
+if DJANGO_MODE == 'production':
+    EMAIL_HOSTS = 'smtp.sendgrid.net'
+    EMAIL_HOSTS_USER = os.getenv('SENDGRID_USERNAME')
+    EMAIL_HOSTS_PASSWORD = os.getenv('SENDGRID_PASSWORD')
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True

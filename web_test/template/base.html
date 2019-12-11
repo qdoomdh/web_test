@@ -19,7 +19,7 @@
 					{% if request.user.is_authenticated %}
 						<p>hello <b>{{ request.user.username|title }} </b> , You last logged in {{ request.user.last_login|date:"D d M Y" }} <a href="{% url 'logout' %}">Logout </a></p>
 					{% else %}
-						<p>Hello gust. <a href="{% url 'login' %}">Login </a></p>
+						<p>Hello gust. <a href="{% url 'login' %}">Login </a> or <a hfre="#">Sing Up</a></p>
 					{% endif %}
 				</div>
 			</header> 

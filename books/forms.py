@@ -31,9 +31,10 @@ class BookForm(forms.ModelForm):
         try:
             title=self.cleaned_data.get('title')
             authors= self.cleaned_data.get('authors')
-            review= self.cleaned_data.get('reveiw')
-            book = Book.objects.get(title=title,authors=authors[0] ) #django 2.0 could not return list .though we must give[0] to the authors.
-            
+            review= self.cleaned_data.get(('reveiw'))
+            for auth in authors:
+                book = Book.objects.get(title=title,authors=auth ) #django 2.0 could not return list .though we must give[0] to the authors.
+
             raise forms.ValidationError(
             "The book {} by {} already exist".format(title,book.list_authors() ) #book.list_authors
         )
