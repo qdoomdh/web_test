@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #'debug_toolbar',# move to the if statement
     'books',
+    'treenode',
 ]
 if DJANGO_MODE == 'local':
     INSTALLED_APPS +=[

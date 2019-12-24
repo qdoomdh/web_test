@@ -5,8 +5,8 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404,render,redirect #for 404 error in review_book/s
 from django.views.generic import DetailView,View #use for subclassess
 from django.views.generic.edit import CreateView
-from .forms import BookForm,ReviewForm,RegistrationForm #this use for review form in review-book function
-from .models import Author, Book #book is an object
+from .forms import BookForm, ReviewForm, RegistrationForm #this use for review form in review-book function
+from .models import Author, Book, UserProfile #book is an object
 #from django.http import HttpResponse # importing resond we no use it we can ermove it
 
 def books_list(request):
@@ -102,7 +102,7 @@ def review_book(request, pk):   #This is a views
             return redirect('review-books')     #return to the review-books(attention to the urls.py in that part we define review_books name as review-books)
 			
     else:
-        form = ReviewForm
+        form = ReviewForm()
 
     context = {
         'book': book,
@@ -121,24 +121,48 @@ class CreateAuthor(CreateView):     #CREATE AN AUTHOR PAGE
         return reverse('review-books')      #redirect to url,use reverse shortcut again
 
 
-def Signup(request): #https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
+# def Signup(request, pk): #https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
+#     if request.method == 'POST':
+#         form = RegistrationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             #user = authenticate(usename=username, password=raw_password) #we've already authenticated then we don't need thsi
+#             user = form.save()
+#             login(request, user)
+#             return redirect('books')
+#     else:
+#         form = RegistrationForm()
+#     context = {
+#         'form':form
+#     }
+#     help_text = {
+#             'password1': "For strong password use at least 8 character including number,letters and sing",
+#             'username': 'Required',
+#         }
+#     return render (request, 'registration.html', context, help_text)
+
+
+def Signup(request):
+    #users = UserProfile.objects.all()
+    #users = Users
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            #user = authenticate(usename=username, password=raw_password) #we've already authenticated then we don't need thsi
+            user = authenticate(username=username, password=raw_password)
             user = form.save()
             login(request, user)
-            return redirect('review-books')
-    else:
+            return redirect('books')
+    else:       #this else position so Important
         form = RegistrationForm()
+    
     context = {
-        'form':form
+        'form': form ,
+        #'Users' : users ,
     }
-    help_text = {
-            'password1': "For strong password use at least 8 character including number,letters and sing",
-            'username': 'Required',
-        }
-    return render (request, 'registration.html', context, help_text)
+    return render (request, 'registration.html',context )
+

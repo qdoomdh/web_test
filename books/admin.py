@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book,Author  #we can write from books.models import Book,Author
+from .models import Book,Author,UserProfile  #we can write from books.models import Book,Author
 # Register your models here.
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
@@ -22,3 +22,4 @@ class BookAdmin(admin.ModelAdmin):
     search_fields= ("title", "authors__name",)
 #until here only set interface changes
 admin.site.register(Author)
+admin.site.register(UserProfile)

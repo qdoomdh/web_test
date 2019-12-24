@@ -7,10 +7,10 @@
     {% for field in form %}
       <label>{{ field.label}}</label>
         {{ field }}
-        <!--
+        
         {% if field.help_text %}
           <small style="color: grey">{{ field.help_text|safe }}</small>
-        {% endif %}-->
+        {% endif %}
         {% for error in field.errors %}
             <div class="form-error">
                 <span>{{ error }}</span>
